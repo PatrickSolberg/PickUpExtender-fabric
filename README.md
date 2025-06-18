@@ -1,47 +1,57 @@
-# PickUpExtender
+# PickUp Extender
 
-A Minecraft mod that extends the range at which players can pick up items, with configurable settings and toggle functionality.
+A Fabric mod for Minecraft that extends the pickup range for items in the world with configurable distance.
 
 ## Features
 
-- Extends the item pickup range beyond the default Minecraft range
-- Configurable pickup range multiplier (1x to 10x)
-- Toggle functionality to enable/disable the extended range
-- Easy configuration through ModMenu integration
-
-## Requirements
-
-- Minecraft 1.21.5+
-- Fabric Loader
-- Fabric API
-- Java 17 or higher
-
-## Installation
-
-1. Install Fabric Loader for Minecraft 1.21.5+
-2. Download the latest release of PickUpExtender from the releases page
-3. Place the mod JAR file in your Minecraft mods folder
-4. Launch Minecraft with the Fabric profile
+- **Extended Pickup Range**: Pick up items from a greater distance than vanilla Minecraft
+- **Configurable Distance**: Adjust the pickup range from 1 to 20 blocks through ModMenu
+- **Toggle On/Off**: Enable or disable the extended pickup range
+- **ModMenu Integration**: Easy configuration through the ModMenu interface
 
 ## Configuration
 
-The mod can be configured through ModMenu in-game:
+The mod can be configured through ModMenu (if installed) or by editing the config file directly.
 
-1. Open the ModMenu interface
-2. Find PickUpExtender in the list
-3. Configure the following settings:
-   - Pickup Range: Multiplier for the pickup range (1-10)
-   - Enabled: Toggle to enable/disable the extended range
+### Settings
+
+- **Pickup Range**: The maximum distance (in blocks) from which you can pick up items (1-20 blocks, default: 4)
+- **Enabled**: Toggle the extended pickup range on/off (default: true)
+
+### Config File Location
+
+The configuration file is located at:
+- Windows: `%APPDATA%/.minecraft/config/pickupextender.json`
+- macOS: `~/Library/Application Support/minecraft/config/pickupextender.json`
+- Linux: `~/.minecraft/config/pickupextender.json`
+
+## Dependencies
+
+- **Fabric Loader** (>=0.16.14)
+- **Fabric API** (>=0.127.0)
+- **Minecraft** (1.21.5)
+- **Java** (>=21)
+
+### Optional Dependencies
+
+- **ModMenu**: For in-game configuration interface
+
+## Installation
+
+1. Install Fabric Loader for Minecraft 1.21.5
+2. Download and install Fabric API
+3. Download this mod and place it in your `mods` folder
+4. (Optional) Install ModMenu for easy configuration
 
 ## Building from Source
 
-1. Clone the repository
+1. Clone this repository
 2. Run `./gradlew build`
 3. Find the built JAR in `build/libs/`
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the CC0-1.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## Author
 
