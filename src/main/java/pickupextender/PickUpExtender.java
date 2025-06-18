@@ -20,8 +20,8 @@ public class PickUpExtender implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		// Load configuration
-		ModConfig.getInstance();
+		// Initialize configuration
+		ModConfig.init();
 		
 		LOGGER.info("PickUp Extender initialized!");
 	}
