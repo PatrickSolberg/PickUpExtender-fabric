@@ -1,6 +1,7 @@
 package pickupextender;
 
 import net.fabricmc.api.ModInitializer;
+import pickupextender.config.ModConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ public class PickUpExtender implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Hello Fabric world!");
+		// Load configuration
+		ModConfig.getInstance();
+		
+		LOGGER.info("PickUp Extender initialized!");
 	}
 }
