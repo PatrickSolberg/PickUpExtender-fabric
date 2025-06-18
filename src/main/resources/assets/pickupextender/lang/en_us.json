@@ -1,0 +1,10 @@
+{
+  "key.pickupextender.toggle": "Toggle PickUp Extender",
+  "key.pickupextender.increase_range": "Increase Pickup Range",
+  "key.pickupextender.decrease_range": "Decrease Pickup Range",
+  "category.pickupextender.general": "PickUp Extender",
+  "text.autoconfig.pickupextender.option.pickupRange": "Pickup Range",
+  "text.autoconfig.pickupextender.option.pickupRange.@Tooltip": "The maximum distance (in blocks) from which you can pick up items.\nVanilla Minecraft uses 1 block range.\nHigher values allow picking up items from further away.",
+  "text.autoconfig.pickupextender.option.enabled": "Enabled",
+  "text.autoconfig.pickupextender.option.enabled.@Tooltip": "Enable or disable the extended pickup range.\nWhen disabled, uses vanilla Minecraft pickup range (1 block)."
+} 
