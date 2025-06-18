@@ -1,41 +1,40 @@
-# Gradle
+# gradle
+
 .gradle/
 build/
 out/
 classes/
 
-# IntelliJ IDEA
+# eclipse
+
+*.launch
+
+# idea
+
 .idea/
-*.iws
 *.iml
 *.ipr
+*.iws
 
-# Eclipse
+# vscode
+
+.settings/
+.vscode/
+bin/
 .classpath
 .project
-.settings/
-bin/
 
-# VS Code
-.vscode/
-*.code-workspace
+# macos
 
-# Mac OS
-.DS_Store
+*.DS_Store
 
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
+# fabric
 
-# Minecraft
 run/
-*.log
-logs/
-crash-reports/
-saves/
-screenshots/
 
-# Fabric
-fabric-installer/
-.minecraft/ 
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
