@@ -1,54 +1,27 @@
 package pickupextender.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import pickupextender.PickUpExtender;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-public class ModConfig {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final String CONFIG_FILE = "config/pickupextender.json";
+@Config(name = PickUpExtender.MOD_ID)
+public class ModConfig implements ConfigData {
     
+    @ConfigEntry.Gui.Tooltip(count = 3)
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
     public int pickupRange = 4;
+    
+    @ConfigEntry.Gui.Tooltip(count = 2)
     public boolean enabled = true;
     
-    private static ModConfig instance;
-    
     public static ModConfig getInstance() {
-        if (instance == null) {
-            instance = load();
-        }
-        return instance;
+        return AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     }
     
-    private static ModConfig load() {
-        File configFile = new File(CONFIG_FILE);
-        if (configFile.exists()) {
-            try (FileReader reader = new FileReader(configFile)) {
-                return GSON.fromJson(reader, ModConfig.class);
-            } catch (IOException e) {
-                PickUpExtender.LOGGER.error("Failed to load config", e);
-            }
-        }
-        
-        // Create default config
-        ModConfig config = new ModConfig();
-        config.save();
-        return config;
-    }
-    
-    public void save() {
-        File configFile = new File(CONFIG_FILE);
-        configFile.getParentFile().mkdirs();
-        
-        try (FileWriter writer = new FileWriter(configFile)) {
-            GSON.toJson(this, writer);
-        } catch (IOException e) {
-            PickUpExtender.LOGGER.error("Failed to save config", e);
-        }
+    public static void init() {
+        AutoConfig.register(ModConfig.class, (definition, configClass) -> new GsonConfigSerializer<>(definition, configClass));
     }
 } 
