@@ -1,21 +1,37 @@
 # PickUp Extender
 
-A Fabric mod for Minecraft that extends the pickup range for items in the world with configurable distance.
+A Fabric mod for Minecraft that extends the pickup range for items in the world with configurable distance and convenient hotkeys.
 
 ## Features
 
 - **Extended Pickup Range**: Pick up items from a greater distance than vanilla Minecraft
 - **Configurable Distance**: Adjust the pickup range from 1 to 20 blocks
 - **Toggle On/Off**: Enable or disable the extended pickup range
-- **Simple Configuration**: Easy configuration through JSON file
+- **Hotkeys**: Quick access to toggle and adjust settings in-game
+- **ModMenu Integration**: Easy configuration through ModMenu interface
+- **Enhanced Tooltips**: Clear explanations of settings and vanilla comparisons
+- **In-Game Feedback**: Chat messages confirm your changes
 
 ## Configuration
 
-The mod is configured by editing the JSON configuration file directly.
+### In-Game Configuration (Recommended)
 
-### Configuration File Location
+1. Install ModMenu alongside this mod
+2. Open the ModMenu interface in-game
+3. Find "PickUp Extender" in the mod list
+4. Click the configuration button to open the settings
 
-The configuration file is located at:
+### Hotkeys
+
+- **P**: Toggle PickUp Extender on/off
+- **[**: Decrease pickup range
+- **]**: Increase pickup range
+
+You can customize these keybindings in Minecraft's Controls menu under "PickUp Extender".
+
+### Manual Configuration
+
+You can also edit the configuration file directly:
 - Windows: `%APPDATA%/.minecraft/config/pickupextender.json`
 - macOS: `~/Library/Application Support/minecraft/config/pickupextender.json`
 - Linux: `~/.minecraft/config/pickupextender.json`
@@ -23,7 +39,10 @@ The configuration file is located at:
 ### Settings
 
 - **pickupRange**: The maximum distance (in blocks) from which you can pick up items (1-20 blocks, default: 4)
+  - Vanilla Minecraft uses 1 block range
+  - Higher values allow picking up items from further away
 - **enabled**: Toggle the extended pickup range on/off (default: true)
+  - When disabled, uses vanilla Minecraft pickup range
 
 ### Example Configuration
 
@@ -41,12 +60,31 @@ The configuration file is located at:
 - **Minecraft** (1.21.5)
 - **Java** (>=21)
 
+### Optional Dependencies
+
+- **ModMenu**: For in-game configuration interface (highly recommended)
+
 ## Installation
 
 1. Install Fabric Loader for Minecraft 1.21.5
 2. Download and install Fabric API
 3. Download this mod and place it in your `mods` folder
-4. Edit the configuration file to adjust settings
+4. (Recommended) Install ModMenu for easy configuration
+5. Launch Minecraft and use the hotkeys or ModMenu to configure
+
+## Usage
+
+### Quick Start
+1. Launch Minecraft with the mod installed
+2. Press **P** to toggle the mod on/off
+3. Use **[** and **]** to adjust the pickup range
+4. Watch for chat messages confirming your changes
+
+### Advanced Configuration
+1. Open ModMenu in-game
+2. Find "PickUp Extender" and click the config button
+3. Adjust settings with helpful tooltips
+4. Click "Done" to save changes
 
 ## Building from Source
 
