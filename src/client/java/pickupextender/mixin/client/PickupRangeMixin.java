@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pickupextender.PickUpExtenderClient;
 import pickupextender.config.ModConfig;
 
 import java.util.List;
@@ -27,7 +28,16 @@ public abstract class PickupRangeMixin extends Entity {
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void tick(CallbackInfo ci) {
-        int radius = Math.max(1, ModConfig.getInstance().pickupRange);
+        // Handle keybindings
+        PickUpExtenderClient.handleKeybindings();
+        
+        ModConfig config = ModConfig.getInstance();
+        
+        if (!config.enabled) {
+            return; // Use vanilla behavior
+        }
+        
+        int radius = Math.max(1, config.pickupRange);
         Vec3d itemPos = this.getPos();
         BlockPos blockPos = new BlockPos((int) itemPos.getX(), (int) itemPos.getY(), (int) itemPos.getZ());
         Box box = new Box(blockPos).expand(radius);
