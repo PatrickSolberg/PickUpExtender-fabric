@@ -5,25 +5,34 @@ A Fabric mod for Minecraft that extends the pickup range for items in the world 
 ## Features
 
 - **Extended Pickup Range**: Pick up items from a greater distance than vanilla Minecraft
-- **Configurable Distance**: Adjust the pickup range from 1 to 20 blocks through ModMenu
+- **Configurable Distance**: Adjust the pickup range from 1 to 20 blocks
 - **Toggle On/Off**: Enable or disable the extended pickup range
-- **ModMenu Integration**: Easy configuration through the ModMenu interface
+- **Simple Configuration**: Easy configuration through JSON file
 
 ## Configuration
 
-The mod can be configured through ModMenu (if installed) or by editing the config file directly.
+The mod is configured by editing the JSON configuration file directly.
 
-### Settings
-
-- **Pickup Range**: The maximum distance (in blocks) from which you can pick up items (1-20 blocks, default: 4)
-- **Enabled**: Toggle the extended pickup range on/off (default: true)
-
-### Config File Location
+### Configuration File Location
 
 The configuration file is located at:
 - Windows: `%APPDATA%/.minecraft/config/pickupextender.json`
 - macOS: `~/Library/Application Support/minecraft/config/pickupextender.json`
 - Linux: `~/.minecraft/config/pickupextender.json`
+
+### Settings
+
+- **pickupRange**: The maximum distance (in blocks) from which you can pick up items (1-20 blocks, default: 4)
+- **enabled**: Toggle the extended pickup range on/off (default: true)
+
+### Example Configuration
+
+```json
+{
+  "pickupRange": 6,
+  "enabled": true
+}
+```
 
 ## Dependencies
 
@@ -32,16 +41,12 @@ The configuration file is located at:
 - **Minecraft** (1.21.5)
 - **Java** (>=21)
 
-### Optional Dependencies
-
-- **ModMenu**: For in-game configuration interface
-
 ## Installation
 
 1. Install Fabric Loader for Minecraft 1.21.5
 2. Download and install Fabric API
 3. Download this mod and place it in your `mods` folder
-4. (Optional) Install ModMenu for easy configuration
+4. Edit the configuration file to adjust settings
 
 ## Building from Source
 
