@@ -2,14 +2,14 @@
 	"schemaVersion": 1,
 	"id": "pickupextender",
 	"version": "${version}",
-	"name": "PickUpExtender",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "PickUp Extender",
+	"description": "Extends the pickup range for items in the world with configurable distance through ModMenu",
 	"authors": [
-		"Me!"
+		"PatrickSolberg"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/PatrickSolberg/PickUpExtender-fabric",
+		"sources": "https://github.com/PatrickSolberg/PickUpExtender-fabric"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/pickupextender/icon.png",
@@ -36,6 +36,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"modmenu": "*"
 	}
 }
