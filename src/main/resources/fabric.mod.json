@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"pickupextender.PickUpExtenderClient"
+		],
+		"modmenu": [
+			"pickupextender.PickUpExtenderClient"
 		]
 	},
 	"mixins": [
