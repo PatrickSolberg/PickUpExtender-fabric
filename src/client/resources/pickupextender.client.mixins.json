@@ -3,8 +3,9 @@
 	"package": "pickupextender.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin",
-		"PickupRangeMixin"
+		"KeyBindingMixin",
+		"PickupRangeMixin",
+		"HudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
