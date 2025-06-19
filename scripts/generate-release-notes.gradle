@@ -1,0 +1,169 @@
+// Release Notes Generator
+// Usage: ./gradlew generateReleaseNotes
+
+task generateReleaseNotes {
+    group = 'release'
+    description = 'Generate release notes for GitHub from CHANGELOG.md'
+    
+    doLast {
+        def changelogFile = file('CHANGELOG.md')
+        if (!changelogFile.exists()) {
+            throw new GradleException("CHANGELOG.md not found!")
+        }
+        
+        def content = changelogFile.text
+        def currentVersion = project.version.replaceAll(/\+.*/, '')
+        
+        // Simple approach: find the version section
+        def lines = content.split('\n')
+        def changelogEntry = ""
+        def inVersionSection = false
+        def versionHeader = "## [${currentVersion}]"
+        
+        for (int i = 0; i < lines.length; i++) {
+            def line = lines[i]
+            
+            if (line.startsWith(versionHeader)) {
+                inVersionSection = true
+                continue
+            }
+            
+            if (inVersionSection) {
+                if (line.startsWith('## ') || line.startsWith('---')) {
+                    break
+                }
+                changelogEntry += line + '\n'
+            }
+        }
+        
+        if (changelogEntry.trim().isEmpty()) {
+            println "Warning: No changelog entry found for version ${currentVersion}"
+            return
+        }
+        
+        // Generate GitHub release notes
+        def releaseNotes = """## PickUp Extender v${currentVersion} - Release
+
+### Installation
+1. Install Fabric Loader for Minecraft 1.21.5
+2. Install Fabric API (required)
+3. Download this mod and place in your mods folder
+4. Optional: Install ModMenu for easy configuration
+5. Launch Minecraft and enjoy!
+
+### Configuration
+- In-Game: Use ModMenu for easy configuration
+- Manual: Edit config/pickupextender.json
+
+### Features
+- Extended Pickup Range (1-20 blocks, configurable)
+- Instant Hotkeys (P, [, ])
+- ModMenu Integration
+- Real-time Feedback
+- Vanilla Compatibility
+
+### Technical Details
+- Minecraft Version: 1.21.5
+- Fabric Loader: >=0.16.14
+- Fabric API: >=0.127.0
+- Java: >=21
+
+### Files
+- pickupextender-production-${project.version}.jar - Production build
+- pickupextender-production-${project.version}-sources.jar - Source code
+
+### Author
+Patrick Solberg - [@patricksolberg](https://github.com/patricksolberg)
+
+### License
+CC0-1.0 License
+
+---
+
+## Changelog
+
+${changelogEntry.trim()}
+
+---
+
+Enjoy your extended pickup range!"""
+        
+        // Write to file
+        def outputFile = file("release-notes-${currentVersion}.md")
+        outputFile.text = releaseNotes
+        
+        println "Release notes generated: ${outputFile.absolutePath}"
+        println "Copy the content above to your GitHub release description"
+        
+        // Also print to console for easy copying
+        println "\n" + "="*80
+        println "RELEASE NOTES FOR GITHUB"
+        println "="*80
+        println releaseNotes
+        println "="*80
+    }
+}
+
+task generateQuickRelease {
+    group = 'release'
+    description = 'Generate a quick release template for manual editing'
+    
+    doLast {
+        def currentVersion = project.version.replaceAll(/\+.*/, '')
+        
+        def quickTemplate = """## PickUp Extender v${currentVersion}
+
+### What's New
+- [Add new features here]
+
+### Bug Fixes
+- [Add bug fixes here]
+
+### Technical Improvements
+- [Add technical improvements here]
+
+### Installation
+1. Install Fabric Loader for Minecraft 1.21.5
+2. Install Fabric API (required)
+3. Download this mod and place in your mods folder
+4. Optional: Install ModMenu for easy configuration
+5. Launch Minecraft and enjoy!
+
+### Configuration
+- In-Game: Use ModMenu for easy configuration
+- Manual: Edit config/pickupextender.json
+
+### Features
+- Extended Pickup Range (1-20 blocks, configurable)
+- Instant Hotkeys (P, [, ])
+- ModMenu Integration
+- Real-time Feedback
+- Vanilla Compatibility
+
+### Technical Details
+- Minecraft Version: 1.21.5
+- Fabric Loader: >=0.16.14
+- Fabric API: >=0.127.0
+- Java: >=21
+
+### Files
+- pickupextender-production-${project.version}.jar - Production build
+- pickupextender-production-${project.version}-sources.jar - Source code
+
+### Author
+Patrick Solberg - [@patricksolberg](https://github.com/patricksolberg)
+
+### License
+CC0-1.0 License
+
+---
+
+Enjoy your extended pickup range!"""
+        
+        def outputFile = file("quick-release-${currentVersion}.md")
+        outputFile.text = quickTemplate
+        
+        println "Quick release template generated: ${outputFile.absolutePath}"
+        println "Edit this file and copy to GitHub release description"
+    }
+} 
