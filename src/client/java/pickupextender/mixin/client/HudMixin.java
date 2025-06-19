@@ -14,7 +14,7 @@ import pickupextender.config.ModConfig;
 public class HudMixin {
     
     @Inject(method = "render", at = @At("TAIL"))
-    private void renderHud(DrawContext context, float tickDelta, CallbackInfo ci) {
+    private void renderHud(DrawContext context, Object tickDelta, CallbackInfo ci) {
         try {
             MinecraftClient client = MinecraftClient.getInstance();
             
