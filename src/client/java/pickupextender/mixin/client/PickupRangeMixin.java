@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pickupextender.PickUpExtenderClient;
 import pickupextender.config.ModConfig;
 
 import java.util.List;
@@ -28,9 +27,6 @@ public abstract class PickupRangeMixin extends Entity {
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void tick(CallbackInfo ci) {
-        // Handle keybindings
-        PickUpExtenderClient.handleKeybindings();
-        
         ModConfig config = ModConfig.getInstance();
         
         if (!config.enabled) {
