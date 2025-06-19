@@ -1,0 +1,200 @@
+// Version Management Script
+// Handles automatic semantic versioning for dev and production builds
+
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+// Version calculation functions
+def calculateVersion() {
+    def major = project.findProperty('mod_version_major') ?: '1'
+    def minor = project.findProperty('mod_version_minor') ?: '0'
+    def patch = project.findProperty('mod_version_patch') ?: '0'
+    def prerelease = project.findProperty('mod_version_prerelease') ?: ''
+    def build = project.findProperty('mod_version_build') ?: ''
+    def buildType = project.findProperty('build_type') ?: 'dev'
+    def buildNumber = project.findProperty('build_number') ?: '0'
+    
+    // Base version
+    def version = "${major}.${minor}.${patch}"
+    
+    // Add prerelease if specified
+    if (prerelease && !prerelease.isEmpty()) {
+        version += "-${prerelease}"
+    }
+    
+    // Add build metadata based on build type
+    if (buildType == 'dev') {
+        // Dev builds: version+dev.YYYYMMDD.HHMMSS
+        def timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern('yyyyMMdd.HHmmss'))
+        version += "+dev.${timestamp}"
+    } else if (buildType == 'production') {
+        // Production builds: version+mc.MINECRAFT_VERSION
+        version += "+mc.${project.minecraft_version}"
+    } else if (buildType == 'release') {
+        // Release builds: just version, no build metadata
+        if (build && !build.isEmpty()) {
+            version += "+${build}"
+        }
+    }
+    
+    return version
+}
+
+def calculateDisplayName() {
+    def buildType = project.findProperty('build_type') ?: 'dev'
+    def baseName = project.findProperty('archives_base_name') ?: 'pickupextender'
+    
+    if (buildType == 'dev') {
+        return "${baseName}-dev"
+    } else if (buildType == 'production') {
+        return "${baseName}-production"
+    } else {
+        return baseName
+    }
+}
+
+// Set version
+project.version = calculateVersion()
+
+// Log version information
+println "=== Version Information ==="
+println "Build Type: ${project.findProperty('build_type') ?: 'dev'}"
+println "Version: ${project.version}"
+println "Display Name: ${calculateDisplayName()}"
+println "=========================="
+
+// Task to show version info
+task versionInfo {
+    group = 'versioning'
+    description = 'Display current version information'
+    
+    doLast {
+        println "=== PickUp Extender Version Info ==="
+        println "Build Type: ${project.findProperty('build_type') ?: 'dev'}"
+        println "Version: ${project.version}"
+        println "Display Name: ${calculateDisplayName()}"
+        println "Minecraft Version: ${project.minecraft_version}"
+        println "Fabric Loader: ${project.loader_version}"
+        println "================================"
+    }
+}
+
+// Task to increment patch version
+task incrementPatch {
+    group = 'versioning'
+    description = 'Increment patch version'
+    
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        
+        def currentPatch = project.findProperty('mod_version_patch') ?: '0'
+        def newPatch = (currentPatch.toInteger() + 1).toString()
+        
+        content = content.replaceAll(/mod_version_patch=\d+/, "mod_version_patch=${newPatch}")
+        propertiesFile.text = content
+        
+        println "Incremented patch version from ${currentPatch} to ${newPatch}"
+    }
+}
+
+// Task to increment minor version
+task incrementMinor {
+    group = 'versioning'
+    description = 'Increment minor version and reset patch to 0'
+    
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        
+        def currentMinor = project.findProperty('mod_version_minor') ?: '0'
+        def newMinor = (currentMinor.toInteger() + 1).toString()
+        
+        content = content.replaceAll(/mod_version_minor=\d+/, "mod_version_minor=${newMinor}")
+        content = content.replaceAll(/mod_version_patch=\d+/, "mod_version_patch=0")
+        propertiesFile.text = content
+        
+        println "Incremented minor version from ${currentMinor} to ${newMinor} and reset patch to 0"
+    }
+}
+
+// Task to increment major version
+task incrementMajor {
+    group = 'versioning'
+    description = 'Increment major version and reset minor and patch to 0'
+    
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        
+        def currentMajor = project.findProperty('mod_version_major') ?: '1'
+        def newMajor = (currentMajor.toInteger() + 1).toString()
+        
+        content = content.replaceAll(/mod_version_major=\d+/, "mod_version_major=${newMajor}")
+        content = content.replaceAll(/mod_version_minor=\d+/, "mod_version_minor=0")
+        content = content.replaceAll(/mod_version_patch=\d+/, "mod_version_patch=0")
+        propertiesFile.text = content
+        
+        println "Incremented major version from ${currentMajor} to ${newMajor} and reset minor and patch to 0"
+    }
+}
+
+// Task to set prerelease version
+task setPrerelease {
+    group = 'versioning'
+    description = 'Set prerelease version (e.g., alpha.1, beta.2, rc.1)'
+    
+    doLast {
+        if (!project.hasProperty('prerelease')) {
+            throw new GradleException("Please specify prerelease version: ./gradlew setPrerelease -Pprerelease=alpha.1")
+        }
+        
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        
+        content = content.replaceAll(/mod_version_prerelease=.*/, "mod_version_prerelease=${project.prerelease}")
+        propertiesFile.text = content
+        
+        println "Set prerelease version to: ${project.prerelease}"
+    }
+}
+
+// Task to clear prerelease version
+task clearPrerelease {
+    group = 'versioning'
+    description = 'Clear prerelease version'
+    
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        
+        content = content.replaceAll(/mod_version_prerelease=.*/, "mod_version_prerelease=")
+        propertiesFile.text = content
+        
+        println "Cleared prerelease version"
+    }
+}
+
+// Task to set build type
+task setBuildType {
+    group = 'versioning'
+    description = 'Set build type (dev, production, release)'
+    
+    doLast {
+        if (!project.hasProperty('buildType')) {
+            throw new GradleException("Please specify build type: ./gradlew setBuildType -PbuildType=production")
+        }
+        
+        if (!['dev', 'production', 'release'].contains(project.buildType)) {
+            throw new GradleException("Build type must be one of: dev, production, release")
+        }
+        
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        
+        content = content.replaceAll(/build_type=.*/, "build_type=${project.buildType}")
+        propertiesFile.text = content
+        
+        println "Set build type to: ${project.buildType}"
+    }
+} 
