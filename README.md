@@ -88,9 +88,41 @@ You can also edit the configuration file directly:
 
 ## Building from Source
 
-1. Clone this repository
-2. Run `./gradlew build`
-3. Find the built JAR in `build/libs/`
+This project uses semantic versioning with automatic versioning for different build types. See [VERSIONING.md](VERSIONING.md) for detailed information.
+
+### Quick Build
+```bash
+# Build development version (default)
+./gradlew buildDev
+
+# Build production version
+./gradlew buildProduction
+
+# Build release version
+./gradlew buildRelease
+```
+
+### Version Management
+```bash
+# Show current version info
+./gradlew versionInfo
+
+# Increment versions
+./gradlew incrementPatch    # 1.0.0 → 1.0.1
+./gradlew incrementMinor    # 1.0.0 → 1.1.0
+./gradlew incrementMajor    # 1.0.0 → 2.0.0
+
+# Set prerelease versions
+./gradlew setPrerelease -Pprerelease=beta.1
+./gradlew clearPrerelease
+```
+
+### Build Types
+- **Development**: `pickupextender-dev-*.jar` - For testing and development
+- **Production**: `pickupextender-production-*.jar` - For distribution and mod platforms
+- **Release**: `pickupextender-*.jar` - For official releases
+
+Find the built JAR files in `build/libs/`.
 
 ## License
 
