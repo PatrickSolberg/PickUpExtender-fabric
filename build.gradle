@@ -3,11 +3,21 @@ plugins {
 	id 'maven-publish'
 }
 
-version = project.mod_version
+// Apply version management script
+apply from: 'version.gradle'
+
 group = project.maven_group
 
-base {
-	archivesName = project.archives_base_name
+// Set archives name based on build type
+def buildType = project.findProperty('build_type') ?: 'dev'
+def baseName = project.findProperty('archives_base_name') ?: 'pickupextender'
+
+if (buildType == 'dev') {
+    base.archivesName = "${baseName}-dev"
+} else if (buildType == 'production') {
+    base.archivesName = "${baseName}-production"
+} else {
+    base.archivesName = baseName
 }
 
 repositories {
@@ -85,11 +95,85 @@ jar {
 	}
 }
 
+// Build tasks for different environments
+task buildDev {
+    group = 'build'
+    description = 'Build development version'
+    dependsOn 'setBuildTypeDev', 'build'
+}
+
+task buildProduction {
+    group = 'build'
+    description = 'Build production version'
+    dependsOn 'setBuildTypeProduction', 'build'
+}
+
+task buildRelease {
+    group = 'build'
+    description = 'Build release version'
+    dependsOn 'setBuildTypeRelease', 'build'
+}
+
+task setBuildTypeDev {
+    group = 'versioning'
+    description = 'Set build type to dev'
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        content = content.replaceAll(/build_type=.*/, "build_type=dev")
+        propertiesFile.text = content
+        println "Set build type to: dev"
+    }
+}
+
+task setBuildTypeProduction {
+    group = 'versioning'
+    description = 'Set build type to production'
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        content = content.replaceAll(/build_type=.*/, "build_type=production")
+        propertiesFile.text = content
+        println "Set build type to: production"
+    }
+}
+
+task setBuildTypeRelease {
+    group = 'versioning'
+    description = 'Set build type to release'
+    doLast {
+        def propertiesFile = file('gradle.properties')
+        def content = propertiesFile.text
+        content = content.replaceAll(/build_type=.*/, "build_type=release")
+        propertiesFile.text = content
+        println "Set build type to: release"
+    }
+}
+
+// Task to clean and rebuild
+task cleanBuild {
+    group = 'build'
+    description = 'Clean and rebuild the project'
+    dependsOn 'clean', 'build'
+}
+
+task cleanBuildDev {
+    group = 'build'
+    description = 'Clean and build development version'
+    dependsOn 'clean', 'buildDev'
+}
+
+task cleanBuildProduction {
+    group = 'build'
+    description = 'Clean and build production version'
+    dependsOn 'clean', 'buildProduction'
+}
+
 // configure the maven publication
 publishing {
 	publications {
 		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
+			artifactId = project.base.archivesName
 			from components.java
 		}
 	}
