@@ -5,11 +5,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pickupextender.PickUpExtenderClient;
 
 @Mixin(MinecraftClient.class)
-public class ExampleClientMixin {
-	@Inject(at = @At("HEAD"), method = "run")
-	private void init(CallbackInfo info) {
-		// This code is injected into the start of MinecraftClient.run()V
+public class KeyBindingMixin {
+	
+	@Inject(at = @At("HEAD"), method = "tick")
+	private void onClientTick(CallbackInfo info) {
+		// Handle keybindings every client tick
+		PickUpExtenderClient.handleKeybindings();
 	}
 }
