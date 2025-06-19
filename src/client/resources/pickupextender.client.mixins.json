@@ -4,8 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"KeyBindingMixin",
-		"PickupRangeMixin",
-		"HudMixin"
+		"PickupRangeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
