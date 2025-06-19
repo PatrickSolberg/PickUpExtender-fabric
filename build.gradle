@@ -6,6 +6,9 @@ plugins {
 // Apply version management script
 apply from: 'version.gradle'
 
+// Apply release notes generator
+apply from: 'scripts/generate-release-notes.gradle'
+
 group = project.maven_group
 
 // Set archives name based on build type
