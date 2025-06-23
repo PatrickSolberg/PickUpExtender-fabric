@@ -43,13 +43,14 @@ def calculateVersion() {
 def calculateDisplayName() {
     def buildType = project.findProperty('build_type') ?: 'dev'
     def baseName = project.findProperty('archives_base_name') ?: 'pickupextender'
+    def minecraftVersion = project.findProperty('minecraft_version') ?: 'unknown'
     
     if (buildType == 'dev') {
-        return "${baseName}-dev"
+        return "${baseName}-${minecraftVersion}-dev"
     } else if (buildType == 'production') {
-        return "${baseName}-production"
+        return "${baseName}-${minecraftVersion}-production"
     } else {
-        return baseName
+        return "${baseName}-${minecraftVersion}"
     }
 }
 
